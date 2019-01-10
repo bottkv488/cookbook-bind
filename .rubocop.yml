@@ -1,6 +1,2 @@
-Encoding:
-  Enabled: False
-LineLength:
-  Max: 200
-Style/RescueModifier:
-  Enabled: false
+AllCops:
+  TargetRubyVersion: 2.3

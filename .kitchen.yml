@@ -2,24 +2,51 @@
 driver:
   name: vagrant
 
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: 12.16
 platforms:
-- name: ubuntu-12.04
+- name: ubuntu-16.04
   run_list:
   - recipe[apt]
-- name: ubuntu-10.04
+- name: ubuntu-14.04
   run_list:
   - recipe[apt]
-- name: centos-6.5
+- name: debian-8.9
+  run_list:
+  - recipe[apt]
+- name: debian-9.2
+  run_list:
+  - recipe[apt]
+- name: centos-6.9
+- name: centos-7.4
+
+verifier:
+  name: inspec
 
 suites:
 - name: default
-  run_list: ["recipe[bind]"]
-  attributes:
-    bind:
-      masters: [ "127.0.0.1" ]
-      zones:
-        attribute: [ "example.com" ]
-      options: [ "check-names slave ignore;", "multi-master yes;", "provide-ixfr yes;", "request-ixfr yes;" ]
-      server:
-        127.0.0.1:
-        - 'bogus no;'
+  run_list: ['recipe[bind::default]']
+- name: resources
+  run_list: ['recipe[bind_test]']
+- name: chroot
+  excludes:
+    - ubuntu-16.04
+  run_list:
+    - recipe[bind_test::chroot]
+- name: views
+  includes:
+    - centos-6.9
+  run_list:
+    - recipe[bind_test::views]
+- name: logging
+  includes:
+    - centos-6.9
+  run_list:
+    - recipe[bind_test::logging]
+- name: linked-zones
+  includes:
+    - ubuntu-16.04
+    - debian-9.2
+  run_list:
+    - recipe[bind_test::linked_zones]

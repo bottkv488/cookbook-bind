@@ -1,11 +1,50 @@
 bind changelog
 ==============
+v2.2.1
+------
+
+* Add support for in-view directive using  `bind_linked_zone` resource.
+
+v2.2.0
+------
+
+* Add `bind_logging_channel` and `bind_logging_category` custom resources.
+* Add `bind_view` custom resource.
+* Add `:create_if_missing` action to `bind_primary_zone` resource.
+
+v2.1.1
+------
+* According to RFC1035, FQDN length max is 255 characters, and each label (dot delimited) is 63 characters. Setting first column width to 65 characters
+
+v2.1.0
+------
+* Add support for chrooted install
+* Chroot Supported platforms: CentOS/RedHat 6.x+, Debian 8.x+, Ubuntu 14.04 LTS
+* Chroot Incompatible platforms: Ubuntu 16.04 LTS [ubuntu/+source/bind9/+bug/1630025](https://bugs.launchpad.net/ubuntu/+source/bind9/+bug/1630025)
+* Updated rndc call to be compliant with current auto-configuration standards
+* Updated file paths using `::File,join()` method
+* Delayed all template creation to avoid file busy conflicts
+* Added `.kitchen.dokken.yml` for faster testing with [kitchen-dokken](https://github.com/someara/kitchen-dokken)
+* Added support for env var `CHEF_VERSION` to affect kitchen-dokken chef-client version
+* Supports chef-client version 12.21.26 and 13.6.4
+
+v2.0.1
+------
+* Add `manage_serial` option to `bind_primary_zone_template` resource
+
+v2.0.0
+------
+* Migrate to using custom resources. See MIGRATION.md for details on migrating from v1.x.
+
+v1.3.0
+------
+* Change default for statistics channel to be false, and add an attribute to set the bind address.
 
 v1.2.0
 ------
 * Add server clause.
   - See [documentation](http://www.zytrax.com/books/dns/ch7/server.html) for reference.
-* Add bind forwardzones attribute. 
+* Add bind forwardzones attribute.
 
 
 v1.1.4
@@ -96,7 +135,7 @@ do yourself the favor and start working with it now.
 v0.1.1
 ------
 
-* Pass zone array to template with `uniq` and `sort` 
+* Pass zone array to template with `uniq` and `sort`
 
 v0.1.0
 ------
